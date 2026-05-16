@@ -41,6 +41,7 @@ Docker volumes on the web Pi, mounted into the Nuxt container:
 One table.
 
 `drawings`
+
 - `id` — string, nanoid
 - `created_at` — timestamp. This is also the "submitted at" value printed in the header.
 - `author_name` — text. Resolves to `'anoniem'` if the submitter leaves it blank. Stored as the resolved value, never NULL.
@@ -57,11 +58,13 @@ The `/data/photos/` folder has no DB representation. Filenames are timestamps, e
 ## API surface (Nuxt server routes)
 
 Public:
+
 - `POST /api/drawings` — submit a canvas PNG and an optional author name. Resolves missing/empty author to `'anoniem'`. Stores the dithered, printer-width-sized PNG under `/data/drawings/` (drawing only, no header), inserts a row with `status=queued`, returns `202 Accepted`.
 - `GET /api/photos` — returns list of photo filenames sorted by mtime descending.
 - `GET /api/photos/:filename` — streams the image bytes (long `Cache-Control`, filenames are immutable).
 
 Auth required (bearer token):
+
 - `GET /api/print-queue/next` — long-poll. Returns immediately if a job is queued. Otherwise blocks for up to ~60s, returning the next job as soon as one is enqueued, or `null` on timeout. Payload: `{ id, png_url, author_name, submitted_at }`.
 - `GET /api/drawings/:id/png` — returns the raw print-ready PNG bytes for a queued/printing job. Called by the print agent after `next`.
 - `POST /api/print-queue/:id/ack` — print agent acks. Body: `{ status: "printed" | "failed", error?: string }`.
@@ -70,6 +73,7 @@ Auth required (bearer token):
 ## Print agent behaviour
 
 Loop:
+
 1. `GET /api/print-queue/next` (long-poll, blocks up to ~60s). Receive `{ id, png_url, author_name, submitted_at }`.
 2. `GET` the PNG from `png_url`.
 3. Print, in this order: ESC/POS text header (author name + submission timestamp), then the image bitmap, then cut.
@@ -106,6 +110,7 @@ On failed ack, the web Pi increments `attempts` and either re-queues or marks `f
 ## Auth
 
 Two bearer tokens via env vars:
+
 - `PRINT_AGENT_TOKEN` — shared between web Pi and printer Pi
 - `UPLOAD_TOKEN` — baked into the Flutter build
 
@@ -116,6 +121,7 @@ Personal-scale threat model. No user accounts. The public `POST /api/drawings` e
 The site is bilingual: Dutch and English. **Dutch is the default.**
 
 Implemented with `@nuxtjs/i18n` using the `prefix_except_default` strategy:
+
 - Dutch (default): `https://drawingdomain.example/`
 - English: `https://drawingdomain.example/en/`
 
