@@ -17,10 +17,13 @@ const brushColor = "#222";
 const drawMode = ref<"brush" | "eraser">("brush");
 
 onMounted(() => {
+  // before any Konva code:
+  Konva.pixelRatio = 2;
+
   stage.value = new Konva.Stage({
     container: canvasElement.value as HTMLDivElement,
-    width: config.canvasSize.width,
-    height: 400,
+    width: config.canvasSize.width / 2,
+    height: config.canvasSize.height / 2,
   });
 
   const layer = new Konva.Layer();

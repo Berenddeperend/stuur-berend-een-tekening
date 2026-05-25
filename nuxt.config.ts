@@ -4,10 +4,13 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   modules: [
     "@nuxt/image",
-    "@nuxtjs/i18n",
+    //"@nuxtjs/i18n",
     "@nuxtjs/tailwindcss",
     "@vueuse/nuxt",
   ],
+  runtimeConfig: {
+    printerPassword: process.env.PRINTER_PASSWORD,
+  },
 
   nitro: {
     storage: {

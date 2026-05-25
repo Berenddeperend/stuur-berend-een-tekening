@@ -18,7 +18,8 @@ export function useDb() {
       id      INTEGER PRIMARY KEY AUTOINCREMENT,
       drawing TEXT NOT NULL,
       artist  TEXT NOT NULL DEFAULT '',
-      printed INTEGER NOT NULL DEFAULT 0
+      printed INTEGER NOT NULL DEFAULT 0,
+      date    TEXT DEFAULT (CURRENT_TIMESTAMP)
     )
   `);
 

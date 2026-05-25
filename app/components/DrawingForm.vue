@@ -11,10 +11,13 @@ async function sendDrawing() {
   try {
     await $fetch("/api/drawing", {
       method: "post",
-      body: {
-        drawing: stage.value.toDataURL(),
+      body: JSON.stringify({
+        drawing: stage.value.toDataURL({
+          pixelRatio: 2,
+        }),
         artist: nickname.value,
-      },
+        date: Date.now(),
+      }),
     });
   } finally {
     submitting.value = false;
