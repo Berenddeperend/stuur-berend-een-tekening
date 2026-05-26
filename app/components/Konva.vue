@@ -9,7 +9,7 @@ const stage = useState("konvaStage", () => shallowRef());
 
 const canvasElement = useTemplateRef("canvas");
 
-const brushSizes = [3, 6, 10, 20];
+const brushSizes = [3, 10, 20];
 const brushSize = ref(brushSizes[0]);
 
 const brushColor = "#222";
@@ -35,7 +35,7 @@ onMounted(() => {
       height: stage.value.height(),
       fill: "white",
       strokeWidth: 1,
-      stroke: "black",
+      stroke: "gray",
     }),
   );
 
@@ -116,7 +116,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div ref="canvas"></div>
+  <div class="flex justify-center mb-4">
+    <div ref="canvas" class=""></div>
+  </div>
 
   <div class="flex justify-between">
     <div class="controls flex">

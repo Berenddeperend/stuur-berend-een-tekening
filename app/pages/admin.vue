@@ -14,7 +14,7 @@ async function printDrawing(row: DrawingEntry) {
   await $fetch("/api/print-queue", {
     method: "POST",
     body: {
-      author: row.artist,
+      artist: row.artist,
       date: row.date,
       drawing: `${row.drawing}`,
     },

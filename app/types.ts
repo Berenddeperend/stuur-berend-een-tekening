@@ -1,5 +1,5 @@
 export type DrawingEntry = {
-  author: string;
+  artist: string;
   date: number;
   drawing: string;
   printed: boolean;

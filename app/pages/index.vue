@@ -29,23 +29,23 @@ async function sendPhoto() {
 
 <template>
   <div>
-    <Wrapper class="bg-green-100 py-8">
-      <NuxtLink to="/admin">admin</NuxtLink>
+    <Wrapper class="bg-[#8ddcdc] py-8">
+      <h1 class="text-4xl my-4 text-center">Stuur Berend een tekening</h1>
+
       <ClientOnly>
-        <InspirationGenerator />
+        <!--        <InspirationGenerator />-->
 
-        <Konva />
-
-        <DrawingForm />
+        <div class="flex flex-col items-center">
+          <!--          288-->
+          <div class="max-w-[304px] p-2 w-full bg-white shadow-xl translate-y-24">
+            <Konva />
+            <DrawingForm class="mt-4" />
+          </div>
+        </div>
       </ClientOnly>
     </Wrapper>
 
     <HowDoesThisWork />
-
-    <!--      <form @submit.prevent="sendPhoto">-->
-    <!--        <input type="file" @change="onFileChange" />-->
-    <!--        <br />-->
-    <!--      </form>-->
 
     <Wrapper class="bg-green-100 py-8">
       <h1 class="text-center text-xl">Stuur Berend een tekening</h1>
@@ -54,5 +54,12 @@ async function sendPhoto() {
         <img v-for="photo in photos" :src="`/photos/${photo}`" alt="" class="w-1/4 h-min" />
       </div>
     </Wrapper>
+
+    <section class="bg-blue-500 py-16">
+      <div class="max-w-4xl mx-auto bg-white p-8 translate-y-24">Panel content</div>
+    </section>
+    <section class="bg-gray-100 pt-32">Next section</section>
+
+    <NuxtLink to="/admin">admin</NuxtLink>
   </div>
 </template>
