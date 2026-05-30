@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import Konva from "konva";
 import { onMounted } from "vue";
 import { Pencil, Eraser } from "@lucide/vue";
 import KonvaControlItem from "~/components/KonvaControlItem.vue";
@@ -16,14 +15,18 @@ const brushColor = "#222";
 
 const drawMode = ref<"brush" | "eraser">("brush");
 
-onMounted(() => {
-  // before any Konva code:
+const canvasWidth = config.canvasSize.width / 2;
+const canvasHeight = config.canvasSize.height / 2;
+
+onMounted(async () => {
+  const Konva = (await import("konva")).default;
+
   Konva.pixelRatio = 2;
 
   stage.value = new Konva.Stage({
     container: canvasElement.value as HTMLDivElement,
-    width: config.canvasSize.width / 2,
-    height: config.canvasSize.height / 2,
+    width: canvasWidth,
+    height: canvasHeight,
   });
 
   const layer = new Konva.Layer();
@@ -117,7 +120,10 @@ onMounted(() => {
 
 <template>
   <div class="flex justify-center mb-4">
-    <div ref="canvas" class=""></div>
+    <div
+      ref="canvas"
+      :style="{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }"
+    ></div>
   </div>
 
   <div class="flex justify-between">

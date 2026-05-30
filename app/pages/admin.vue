@@ -27,30 +27,28 @@ onMounted(fetchPrintQueue);
 <template>
   <div>admin page</div>
 
-  <client-only>
-    <table>
-      <thead>
-        <tr>
-          <td>nickname</td>
-          <td>date</td>
-          <td>drawing</td>
-          <td>actie</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="row in data">
-          <td>{{ row.artist }}</td>
-          <td>{{ row.date }}</td>
-          <td>
-            <img class="w-1/4" :src="`data:image/png;base64, ${row.drawing}`" alt="" />
-          </td>
-          <td>
-            <button @click="printDrawing(row)">print</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </client-only>
+  <table>
+    <thead>
+      <tr>
+        <td>nickname</td>
+        <td>date</td>
+        <td>drawing</td>
+        <td>actie</td>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="row in data">
+        <td>{{ row.artist }}</td>
+        <td>{{ row.date }}</td>
+        <td>
+          <img class="w-1/4" :src="`data:image/png;base64, ${row.drawing}`" alt="" />
+        </td>
+        <td>
+          <button @click="printDrawing(row)">print</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
   <!--  <pre>{{ data }}</pre>-->
 </template>

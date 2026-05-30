@@ -29,20 +29,18 @@ async function sendPhoto() {
 
 <template>
   <div>
-    <Wrapper class="bg-[#8ddcdc] py-8">
-      <h1 class="text-4xl my-4 text-center">Stuur Berend een tekening</h1>
+    <Wrapper class="bg-[#8ddcdc] py-8 -mt-24">
+      <h1 class="text-4xl mt-24 text-center">Stuur Berend een tekening</h1>
 
-      <ClientOnly>
-        <!--        <InspirationGenerator />-->
+      <!--        <InspirationGenerator />-->
 
-        <div class="flex flex-col items-center">
-          <!--          288-->
-          <div class="max-w-[304px] p-2 w-full bg-white shadow-xl translate-y-24">
-            <Konva />
-            <DrawingForm class="mt-4" />
-          </div>
+      <div class="flex flex-col items-center">
+        <!--          288-->
+        <div class="max-w-[304px] p-2 w-full bg-white shadow-xl translate-y-24">
+          <Konva />
+          <DrawingForm class="mt-4" />
         </div>
-      </ClientOnly>
+      </div>
     </Wrapper>
 
     <HowDoesThisWork />
