@@ -3,12 +3,12 @@ const steps = [
   {
     title: "Maak een tekening",
     description: "Teken hierboven iets moois.",
-    media: "/steps/step-1.png",
+    media: "/steps/drawing.gif",
   },
   {
     title: "Direct geprint",
     description: "Je tekening rolt automatisch uit mijn bonnetjesprinter.",
-    media: "/steps/step-2.gif",
+    media: "/steps/pip-demo.gif",
   },
   {
     title: "Hall of fame",

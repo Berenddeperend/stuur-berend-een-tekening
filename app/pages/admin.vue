@@ -8,8 +8,6 @@ async function fetchPrintQueue() {
   data.value = await $fetch("/api/print-queue", {});
 }
 
-console.log(import.meta.env.PRINTER_PASSWORD);
-
 async function printDrawing(row: DrawingEntry) {
   await $fetch("/api/print-queue", {
     method: "POST",

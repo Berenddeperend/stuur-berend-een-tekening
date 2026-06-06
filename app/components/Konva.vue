@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
-import { Pencil, Eraser } from "@lucide/vue";
+import { Pencil, Eraser, Trash } from "@lucide/vue";
 import KonvaControlItem from "~/components/KonvaControlItem.vue";
 import config from "~/config";
 
@@ -9,7 +9,7 @@ const stage = useState("konvaStage", () => shallowRef());
 const canvasElement = useTemplateRef("canvas");
 
 const brushSizes = [3, 10, 20];
-const brushSize = ref(brushSizes[0]);
+const brushSize = ref(brushSizes[1]);
 
 const brushColor = "#222";
 
@@ -17,6 +17,19 @@ const drawMode = ref<"brush" | "eraser">("brush");
 
 const canvasWidth = config.canvasSize.width / 2;
 const canvasHeight = config.canvasSize.height / 2;
+
+let drawingCanvas: HTMLCanvasElement | null = null;
+let drawingContext: CanvasRenderingContext2D | null = null;
+let drawingLayer: { batchDraw: () => void } | null = null;
+
+const clear = () => {
+  if (!drawingCanvas || !drawingContext || !drawingLayer) return;
+  drawingContext.save();
+  drawingContext.globalCompositeOperation = "source-over";
+  drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
+  drawingContext.restore();
+  drawingLayer.batchDraw();
+};
 
 onMounted(async () => {
   const Konva = (await import("konva")).default;
@@ -31,6 +44,7 @@ onMounted(async () => {
 
   const layer = new Konva.Layer();
   stage.value.add(layer);
+  drawingLayer = layer;
 
   layer.add(
     new Konva.Rect({
@@ -46,6 +60,7 @@ onMounted(async () => {
   const canvas = document.createElement("canvas");
   canvas.width = stage.value.width() * 2;
   canvas.height = stage.value.height() * 2;
+  drawingCanvas = canvas;
 
   // created canvas we can add to layer as "Konva.Image" element
   const image = new Konva.Image({
@@ -58,6 +73,7 @@ onMounted(async () => {
 
   // Good. Now we need to get access to context element
   const context = canvas.getContext("2d");
+  drawingContext = context;
   context.strokeStyle = brushColor;
   context.lineJoin = "round";
   context.lineWidth = brushSize.value;
@@ -152,6 +168,10 @@ onMounted(async () => {
 
       <KonvaControlItem @click="drawMode = 'eraser'" :active="drawMode === 'eraser'">
         <Eraser :size="18" />
+      </KonvaControlItem>
+
+      <KonvaControlItem @click="clear">
+        <Trash :size="18" />
       </KonvaControlItem>
     </div>
   </div>

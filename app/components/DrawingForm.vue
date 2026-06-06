@@ -11,13 +11,13 @@ async function sendDrawing() {
   try {
     await $fetch("/api/drawing", {
       method: "post",
-      body: JSON.stringify({
+      body: {
         drawing: stage.value.toDataURL({
           pixelRatio: 2,
         }),
         artist: nickname.value,
         date: Date.now(),
-      }),
+      },
     });
   } finally {
     submitting.value = false;
@@ -33,6 +33,7 @@ async function sendDrawing() {
       placeholder="Je naam"
       class="nickname"
       autocomplete="off"
+      maxlength="30"
     />
 
     <button :disabled="submitting" class="submit">

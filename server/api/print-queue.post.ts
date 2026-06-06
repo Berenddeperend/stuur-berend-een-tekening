@@ -2,7 +2,6 @@ export default defineEventHandler(async (event) => {
   const body = await readBody<{ drawing?: string; artist?: string; date: number }>(event);
 
   const config = useRuntimeConfig(event);
-  console.log("the correct password is:", config.printerPassword);
 
   const printResponse = await $fetch("https://berendswennenhuis.nl/api/thermal-printer/drawing", {
     method: "POST",
@@ -17,5 +16,5 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  console.log(printResponse);
+  console.log("printresponse", printResponse);
 });
