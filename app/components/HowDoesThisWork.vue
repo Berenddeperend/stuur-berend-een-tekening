@@ -7,7 +7,7 @@ const steps = [
   },
   {
     title: "2. Klik op 'versturen'",
-    description: "Je tekening rolt automatisch uit mijn bonnetjesprinter.",
+    description: "Je tekening rolt automatisch uit de bonnetjesprinter in mijn woonkamer.",
     media: "/steps/print.gif",
   },
   {
@@ -35,7 +35,7 @@ const steps = [
       </li>
     </ol>
 
-    <p class="mt-4">
+    <p class="mt-8">
       Veel plezier, en probeer de hoeveelheid piemels enigszins te beperken. Meer weten? Ik heb er
       <a href="www.berendswennenhuis.nl">hier</a> over geschreven.
     </p>

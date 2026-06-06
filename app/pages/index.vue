@@ -12,9 +12,11 @@ fetchPhotos();
   <div class="container">
     <h1 class="text-center">Stuur Berend een tekening.</h1>
 
-    <p class="text-center">
-      Je tekening wordt <strong>direct automatisch</strong> uitgeprint op een kassabon.
-    </p>
+    <div class="flex justify-center">
+      <p class="text-center max-w-[400px]">
+        Je tekening wordt <strong>direct automatisch</strong> uitgeprint op een kassabon.
+      </p>
+    </div>
 
     <div class="canvas-card">
       <Konva />
