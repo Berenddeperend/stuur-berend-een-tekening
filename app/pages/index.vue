@@ -9,75 +9,95 @@ fetchPhotos();
 </script>
 
 <template>
-  <div>
-    <!-- Hero: the green gradient is a backdrop that the drawing card half-overlaps -->
-    <section class="hero">
-      <div class="hero-bg" aria-hidden="true"></div>
+  <div class="container">
+    <h1 class="text-center">Stuur Berend een tekening.</h1>
 
-      <Wrapper class="px-4">
-        <h1 class="hero-title">Stuur Berend<br />een tekening</h1>
+    <p class="text-center">Tekeningen worden <strong>direct</strong> uitgeprint.</p>
 
-        <!-- InspirationGenerator -->
+    <div class="canvas-card">
+      <Konva />
+      <DrawingForm class="mt-4" />
+    </div>
 
-        <div class="drawing-card">
-          <Konva />
-          <DrawingForm class="mt-4" />
-        </div>
-      </Wrapper>
-    </section>
+    <hr />
 
     <HowDoesThisWork />
 
-    <Wrapper class="bg-green-100 py-8 px-4">
-      <h1 class="text-center text-xl">Stuur Berend een tekening</h1>
+    <hr />
 
-      <div class="flex items-center gap-3 flex-wrap">
-        <img
-          v-for="photo in photos"
-          :key="photo"
-          :src="`/photos/${photo}`"
-          alt=""
-          class="w-1/4 h-min"
-        />
-      </div>
-    </Wrapper>
+    <h2>Hall of fame</h2>
 
-    <NuxtLink to="/admin">admin</NuxtLink>
+    <div class="gallery">
+      <a v-for="photo in photos" :key="photo" :href="`/photos/${photo}`" target="_blank">
+        <img :src="`/photos/${photo}`" alt="" />
+      </a>
+    </div>
+
+    <p class="admin-link">
+      <NuxtLink to="/admin">admin</NuxtLink>
+    </p>
   </div>
 </template>
 
 <style scoped>
-.hero {
-  position: relative;
+.container {
+  max-width: 590px;
+  margin: 0 auto;
+  padding: 40px 30px 0;
 }
 
-/* Gradient backdrop, sized so its bottom edge falls across the middle of the card */
-.hero-bg {
-  position: absolute;
-  inset: 0 0 auto 0;
-  height: 430px;
-  background: linear-gradient(180deg, #dff9ff 0%, #49e4b1 100%);
-  z-index: -1;
+h1 {
+  font-size: 2em;
+  font-weight: 700;
+  margin-bottom: 0.5em;
 }
 
-.hero-title {
-  font-family: "Khmer MN";
-  font-size: 2.25rem;
-  line-height: 1.1;
-  text-align: center;
-  padding-top: 2.5rem;
-  padding-bottom: 2rem;
+h2 {
+  font-size: 1.4em;
+  font-weight: 700;
+  margin-bottom: 0.4em;
 }
 
-/* Sits in normal flow so everything below accounts for its real height */
-.drawing-card {
+p {
+  margin: 0 0 1em;
+}
+
+.canvas-card {
+  margin: 30px auto 10px;
+  padding: 12px;
+  background: #12123e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  max-width: 320px;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.gallery img {
   width: 100%;
-  max-width: 304px;
-  margin-inline: auto;
-  padding: 0.5rem;
-  background: #fff;
-  box-shadow:
-    0 20px 25px -5px rgb(0 0 0 / 0.1),
-    0 8px 10px -6px rgb(0 0 0 / 0.1);
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  margin: 0;
+  display: block;
+}
+
+@media (max-width: 430px) {
+  .gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.admin-link {
+  margin-top: 40px;
+  opacity: 0.5;
+  font-size: 0.85em;
 }
 </style>

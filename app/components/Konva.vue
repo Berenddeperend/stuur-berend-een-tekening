@@ -37,8 +37,8 @@ onMounted(async () => {
       width: stage.value.width(),
       height: stage.value.height(),
       fill: "white",
-      strokeWidth: 1,
-      stroke: "gray",
+      // strokeWidth: 1,
+      // stroke: "gray",
     }),
   );
 
@@ -119,39 +119,73 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="flex justify-center mb-4">
+  <div class="canvas-wrap">
     <div
       ref="canvas"
+      class="canvas-surface"
       :style="{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }"
     ></div>
   </div>
 
-  <div class="flex justify-between">
-    <div class="controls flex">
+  <div class="toolbar">
+    <div class="controls">
       <KonvaControlItem
         v-for="availableSize in brushSizes"
+        :key="availableSize"
         :active="brushSize === availableSize"
         @click="brushSize = availableSize"
       >
         <div
-          class="rounded-full block"
+          class="brush-dot"
           :style="{
-            width: availableSize * 2 + 'px',
-            height: availableSize * 2 + 'px',
-            backgroundColor: brushColor,
+            width: availableSize + 'px',
+            height: availableSize + 'px',
           }"
         ></div>
       </KonvaControlItem>
     </div>
 
-    <div class="controls flex">
+    <div class="controls">
       <KonvaControlItem @click="drawMode = 'brush'" :active="drawMode === 'brush'">
-        <Pencil :size="20" />
+        <Pencil :size="18" />
       </KonvaControlItem>
 
       <KonvaControlItem @click="drawMode = 'eraser'" :active="drawMode === 'eraser'">
-        <Eraser :size="20" />
+        <Eraser :size="18" />
       </KonvaControlItem>
     </div>
   </div>
 </template>
+
+<style scoped>
+.canvas-wrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.canvas-surface {
+  background: #fff;
+  //border: 1px solid rgba(255, 255, 255, 0.3);
+  //border-radius: 4px;
+  touch-action: none;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.controls {
+  display: flex;
+  gap: 6px;
+}
+
+.brush-dot {
+  border-radius: 9999px;
+  background: #e8e6e3;
+  display: block;
+}
+</style>
