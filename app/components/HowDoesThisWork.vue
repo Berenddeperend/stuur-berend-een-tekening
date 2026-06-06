@@ -1,19 +1,20 @@
 <script setup lang="ts">
 const steps = [
   {
-    title: "Maak een tekening",
+    title: "1. Maak een tekening",
     description: "Teken hierboven iets moois.",
-    media: "/steps/drawing.gif",
+    media: "/steps/drawing-2.gif",
   },
   {
-    title: "Direct geprint",
+    title: "2. Klik op 'versturen'",
     description: "Je tekening rolt automatisch uit mijn bonnetjesprinter.",
-    media: "/steps/pip-demo.gif",
+    media: "/steps/print.gif",
   },
   {
-    title: "Hall of fame",
-    description: "Is het geen piemel? Dan maak ik er een foto van en komt hij in de Hall of Fame.",
-    media: "/steps/step-3.png",
+    title: "3. Hall of fame",
+    description:
+      "Is het een leuke tekening? Dan maak ik er een foto van en komt hij in de Hall of Fame. 👇",
+    media: "/steps/hall-of-fame.jpg",
   },
 ];
 </script>
@@ -33,6 +34,11 @@ const steps = [
         </div>
       </li>
     </ol>
+
+    <p class="mt-4">
+      Veel plezier, en probeer de hoeveelheid piemels enigszins te beperken. Meer weten? Ik heb er
+      <a href="www.berendswennenhuis.nl">hier</a> over geschreven.
+    </p>
   </section>
 </template>
 
@@ -57,7 +63,6 @@ h2 {
   gap: 20px;
   align-items: flex-start;
 }
-
 .steps li::marker {
   display: none;
 }

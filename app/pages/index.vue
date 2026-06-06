@@ -12,7 +12,9 @@ fetchPhotos();
   <div class="container">
     <h1 class="text-center">Stuur Berend een tekening.</h1>
 
-    <p class="text-center">Tekeningen worden <strong>direct</strong> uitgeprint.</p>
+    <p class="text-center">
+      Je tekening wordt <strong>direct automatisch</strong> uitgeprint op een kassabon.
+    </p>
 
     <div class="canvas-card">
       <Konva />
@@ -32,10 +34,6 @@ fetchPhotos();
         <img :src="`/photos/${photo}`" alt="" />
       </a>
     </div>
-
-    <p class="admin-link">
-      <NuxtLink to="/admin">admin</NuxtLink>
-    </p>
   </div>
 </template>
 
@@ -50,6 +48,12 @@ h1 {
   font-size: 2em;
   font-weight: 700;
   margin-bottom: 0.5em;
+}
+
+.subtitle {
+  font-size: 12px;
+  text-align: center;
+  color: #9ca3af;
 }
 
 h2 {
