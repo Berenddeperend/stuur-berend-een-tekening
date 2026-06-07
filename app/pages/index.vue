@@ -36,6 +36,7 @@ fetchPhotos();
       <Konva />
       <DrawingForm class="mt-4" />
     </div>
+    <InspirationGenerator />
 
     <hr />
 
