@@ -18,6 +18,20 @@ fetchPhotos();
       </p>
     </div>
 
+    <!--    <svg-->
+    <!--      class="hero-arrow"-->
+    <!--      viewBox="0 0 140 200"-->
+    <!--      fill="none"-->
+    <!--      stroke="currentColor"-->
+    <!--      stroke-width="2.5"-->
+    <!--      stroke-linecap="round"-->
+    <!--      stroke-linejoin="round"-->
+    <!--      aria-hidden="true"-->
+    <!--    >-->
+    <!--      <path d="M 20 15 Q 140 90, 35 180" />-->
+    <!--      <path d="M 25 170 L 35 180 L 48 173" />-->
+    <!--    </svg>-->
+
     <div class="canvas-card">
       <Konva />
       <DrawingForm class="mt-4" />
@@ -44,6 +58,24 @@ fetchPhotos();
   max-width: 590px;
   margin: 0 auto;
   padding: 40px 30px 0;
+  position: relative;
+}
+
+.hero-arrow {
+  position: absolute;
+  top: 100px;
+  right: -20px;
+  width: 130px;
+  height: 180px;
+  color: #e2bc4e;
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+@media (max-width: 560px) {
+  .hero-arrow {
+    display: none;
+  }
 }
 
 h1 {

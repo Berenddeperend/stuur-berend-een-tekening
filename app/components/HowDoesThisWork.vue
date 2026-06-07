@@ -36,8 +36,9 @@ const steps = [
     </ol>
 
     <p class="mt-8">
-      Veel plezier, en probeer de hoeveelheid piemels enigszins te beperken. Meer weten? Ik heb er
-      <a href="www.berendswennenhuis.nl">hier</a> over geschreven.
+      Veel plezier, en probeer de hoeveelheid piemels enigszins te beperken.
+      <!--      Meer weten? Ik heb er-->
+      <!--      <a href="www.berendswennenhuis.nl">hier</a> over geschreven.-->
     </p>
   </section>
 </template>
