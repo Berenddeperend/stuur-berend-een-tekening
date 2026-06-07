@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  stuur-berend-een-tekening:
+    build: .
+    image: "stuur-berend-een-tekening:latest"
+    container_name: "stuur-berend-een-tekening"
+    restart: unless-stopped
+    env_file: ".env"
+    volumes:
+      # SQLite database (drawings) — created on boot by the app
+      - ./.data:/app/.data
+      # Uploaded photos: bind-mounted both where the app writes/reads them and where
+      # Nitro serves static assets, so uploads persist AND are served at /photos/*
+      - ./public/photos:/app/public/photos
+      - ./public/photos:/app/.output/public/photos
+    networks:
+      - caddy
+
+networks:
+  caddy:
+    name: 'caddy'
+    external: true
