@@ -1,11 +1,51 @@
 <script setup lang="ts">
-const photos = ref<string[]>();
+import PhotoSwipeLightbox from "photoswipe/lightbox";
+import "photoswipe/style.css";
+
+type Photo = { name: string; thumb: string; w?: number; h?: number };
+
+// The API returns the original filename, a small grid thumbnail, and the
+// original's (orientation-corrected) dimensions for PhotoSwipe — so the client
+// never has to download full-resolution images just to measure them.
+const photos = ref<Photo[]>([]);
 
 const fetchPhotos = async () => {
   photos.value = await $fetch("/api/photos");
 };
 
 fetchPhotos();
+
+let lightbox: PhotoSwipeLightbox | null = null;
+
+onMounted(() => {
+  lightbox = new PhotoSwipeLightbox({
+    gallery: "#hall-of-fame",
+    children: "a",
+    padding: {
+      top: 10,
+      bottom: 10,
+      left: 0,
+      right: 0,
+    },
+    bgOpacity: 0.3,
+    pswpModule: () => import("photoswipe"),
+  });
+  // Safety net: if the server couldn't measure an image, fall back to a sensible
+  // portrait ratio so the lightbox still opens.
+  lightbox.addFilter("itemData", (itemData) => {
+    if (!itemData.width || !itemData.height) {
+      itemData.width = 1200;
+      itemData.height = 1600;
+    }
+    return itemData;
+  });
+  lightbox.init();
+});
+
+onUnmounted(() => {
+  lightbox?.destroy();
+  lightbox = null;
+});
 </script>
 
 <template>
@@ -17,20 +57,6 @@ fetchPhotos();
         Je tekening wordt <strong>direct automatisch</strong> uitgeprint op een kassabon.
       </p>
     </div>
-
-    <!--    <svg-->
-    <!--      class="hero-arrow"-->
-    <!--      viewBox="0 0 140 200"-->
-    <!--      fill="none"-->
-    <!--      stroke="currentColor"-->
-    <!--      stroke-width="2.5"-->
-    <!--      stroke-linecap="round"-->
-    <!--      stroke-linejoin="round"-->
-    <!--      aria-hidden="true"-->
-    <!--    >-->
-    <!--      <path d="M 20 15 Q 140 90, 35 180" />-->
-    <!--      <path d="M 25 170 L 35 180 L 48 173" />-->
-    <!--    </svg>-->
 
     <div class="canvas-card">
       <Konva />
@@ -46,9 +72,17 @@ fetchPhotos();
 
     <h2>Hall of fame</h2>
 
-    <div class="gallery">
-      <a v-for="photo in photos" :key="photo" :href="`/photos/${photo}`" target="_blank">
-        <img :src="`/photos/${photo}`" alt="" />
+    <div id="hall-of-fame" class="gallery">
+      <a
+        v-for="photo in photos"
+        :key="photo.name"
+        :href="`/photos/${photo.name}`"
+        :data-pswp-width="photo.w"
+        :data-pswp-height="photo.h"
+        target="_blank"
+        rel="noreferrer"
+      >
+        <img :src="`/photos/${photo.thumb}`" alt="" loading="lazy" decoding="async" />
       </a>
     </div>
   </div>

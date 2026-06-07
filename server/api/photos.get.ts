@@ -1,18 +1,29 @@
-import { readdir, glob } from "node:fs/promises";
+import { readdir } from "node:fs/promises";
 import path from "node:path";
+import { PHOTOS_DIR, isThumb, thumbName, ensureThumb, imageDimensions } from "../utils/images";
 
-export default defineEventHandler(async (event) => {
-  // return await readdir(path.resolve("./public/photos"));
+const exts = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"]);
 
-  const exts = new Set([".jpg", ".jpeg", ".png", ".webp", ".gif", ".avif"]);
+export default defineEventHandler(async () => {
+  const entries = await readdir(PHOTOS_DIR, { withFileTypes: true });
 
-  const dir = "./public/photos";
-  const entries = await readdir(dir, { withFileTypes: true });
-
-  const images = entries
-    .filter((e) => e.isFile() && exts.has(path.extname(e.name).toLowerCase()))
+  const originals = entries
+    .filter(
+      (e) => e.isFile() && !isThumb(e.name) && exts.has(path.extname(e.name).toLowerCase()),
+    )
     .map((e) => e.name);
-  // .map(e => path.join(dir, e.name))
 
-  return images;
+  return await Promise.all(
+    originals.map(async (name) => {
+      try {
+        // Backfill / self-heal: generate the thumbnail if it's missing.
+        await ensureThumb(name);
+        const { w, h } = await imageDimensions(name);
+        return { name, thumb: thumbName(name), w, h };
+      } catch {
+        // Processing failed — serve the original and let the client measure it.
+        return { name, thumb: name, w: undefined, h: undefined };
+      }
+    }),
+  );
 });

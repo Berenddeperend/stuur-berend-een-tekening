@@ -1,22 +1,21 @@
-import { readdir, writeFile, glob } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 import path from "node:path";
-
-const storage = useStorage("uploads");
+import { PHOTOS_DIR, ensureThumb } from "../utils/images";
 
 export default defineEventHandler(async (event) => {
   const formData = await readMultipartFormData(event);
 
-  const filesToUpload: Promise<any>[] = [];
+  const written: string[] = [];
+  for (const file of formData ?? []) {
+    if (!file.filename) continue;
+    await writeFile(path.join(PHOTOS_DIR, file.filename), file.data);
+    written.push(file.filename);
+  }
 
-  formData?.forEach((file) => {
-    filesToUpload.push(writeFile(path.resolve(`./public/photos/${file.filename}`), file.data));
-  });
-
-  await Promise.all(filesToUpload);
+  // Generate grid thumbnails up front so the first Hall of Fame load is cheap.
+  // A failure here (e.g. unsupported file) shouldn't fail the upload — the GET
+  // handler regenerates lazily as a fallback.
+  await Promise.all(written.map((name) => ensureThumb(name).catch(() => {})));
 
   return 200;
-
-  //
-  // const body = await readBody(event);
-  // return { file };
 });

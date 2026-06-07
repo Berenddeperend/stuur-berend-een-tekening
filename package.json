@@ -8,6 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
+    "backfill:thumbnails": "node scripts/backfill-thumbnails.mjs",
     "fmt": "oxfmt",
     "fmt:check": "oxfmt --check"
   },
@@ -19,6 +20,8 @@
     "@vueuse/nuxt": "^14.3.0",
     "konva": "^10.3.0",
     "nuxt": "^4.4.4",
+    "photoswipe": "^5.4.4",
+    "sharp": "^0.34.5",
     "vue": "^3.5.33",
     "vue-router": "^5.0.6"
   },
