@@ -31,6 +31,20 @@ const clear = () => {
   drawingLayer.batchDraw();
 };
 
+const {
+  dialogRef: confirmDialogRef,
+  visible: confirmVisible,
+  open: openConfirm,
+  close: closeConfirm,
+  onCancel: onConfirmCancel,
+  onBackdropClick: onConfirmBackdropClick,
+} = useAnimatedDialog();
+
+function confirmClear() {
+  clear();
+  closeConfirm();
+}
+
 onMounted(async () => {
   const Konva = (await import("konva")).default;
 
@@ -170,11 +184,25 @@ onMounted(async () => {
         <Eraser :size="18" />
       </KonvaControlItem>
 
-      <KonvaControlItem @click="clear">
+      <KonvaControlItem @click="openConfirm">
         <Trash :size="18" />
       </KonvaControlItem>
     </div>
   </div>
+
+  <dialog
+    ref="confirmDialogRef"
+    class="confirm-modal"
+    :class="{ 'is-visible': confirmVisible }"
+    @cancel="onConfirmCancel"
+    @click="onConfirmBackdropClick"
+  >
+    <p class="confirm-message">Weet je zeker dat je je tekening wilt wissen?</p>
+    <div class="confirm-actions">
+      <button type="button" class="confirm-cancel" @click="closeConfirm">Annuleren</button>
+      <button type="button" class="confirm-ok" @click="confirmClear">Wissen</button>
+    </div>
+  </dialog>
 </template>
 
 <style scoped>
@@ -207,5 +235,80 @@ onMounted(async () => {
   border-radius: 9999px;
   background: #e8e6e3;
   display: block;
+}
+
+.confirm-modal {
+  position: fixed;
+  inset: 0;
+  margin: auto;
+  background: #222250;
+  color: #e8e6e3;
+  border-radius: 8px;
+  padding: 24px;
+  width: min(320px, calc(100vw - 32px));
+
+  opacity: 0;
+  transform: scale(0.97);
+  transition:
+    opacity 0.15s ease-out,
+    transform 0.15s ease-out;
+}
+
+.confirm-modal.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.confirm-modal::backdrop {
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+}
+
+.confirm-modal.is-visible::backdrop {
+  opacity: 1;
+}
+
+.confirm-message {
+  margin: 0 0 20px;
+}
+
+.confirm-actions {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.confirm-cancel,
+.confirm-ok {
+  border-radius: 4px;
+  font: inherit;
+  font-weight: 700;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.confirm-cancel {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #e8e6e3;
+}
+
+.confirm-cancel:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.confirm-ok {
+  background: transparent;
+  border: 1px solid #e2bc4e;
+  color: #e2bc4e;
+}
+
+.confirm-ok:hover {
+  background: #e2bc4e;
+  color: #222250;
 }
 </style>

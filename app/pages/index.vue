@@ -52,17 +52,12 @@ onUnmounted(() => {
   <div class="container">
     <h1 class="text-center">Stuur Berend een tekening.</h1>
 
-    <div class="flex justify-center">
-      <p class="text-center max-w-[400px]">
-        Je tekening wordt <strong>direct automatisch</strong> uitgeprint op een kassabon.
-      </p>
-    </div>
+    <InspirationGenerator />
 
     <div class="canvas-card">
       <Konva />
       <DrawingForm class="mt-4" />
     </div>
-    <InspirationGenerator />
 
     <hr />
 

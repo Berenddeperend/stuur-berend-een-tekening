@@ -19,6 +19,12 @@ async function printDrawing(row: DrawingEntry) {
   });
 }
 
+async function deleteDrawing(row: DrawingEntry) {
+  if (!confirm(`Tekening van "${row.artist || "anoniem"}" verwijderen?`)) return;
+  await $fetch(`/api/drawing/${row.id}`, { method: "DELETE" });
+  await fetchPrintQueue();
+}
+
 onMounted(fetchPrintQueue);
 </script>
 
@@ -43,6 +49,7 @@ onMounted(fetchPrintQueue);
         </td>
         <td>
           <button @click="printDrawing(row)">print</button>
+          <button @click="deleteDrawing(row)">verwijder</button>
         </td>
       </tr>
     </tbody>

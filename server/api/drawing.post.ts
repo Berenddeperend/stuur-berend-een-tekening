@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
     .run(drawing, artist);
 
   //
-  const printDrawingResponse = await $fetch(
+  const printDrawingResponse = await $fetch<{ ok: boolean; video?: string }>(
     "https://berendswennenhuis.nl/api/thermal-printer/drawing",
     {
       method: "POST",
@@ -38,6 +38,13 @@ export default defineEventHandler(async (event) => {
     },
   );
 
+  // The printer returns its own path (/api/printer/video/<id>.mp4) — rewrite
+  // it to our same-origin proxy route, since the browser can't reach the
+  // printer's Bearer-gated URL directly.
+  const videoUrl = printDrawingResponse?.video
+    ? `/api/video/${printDrawingResponse.video.split("/").pop()}`
+    : null;
+
   setResponseStatus(event, 202);
-  return { id: Number(result.lastInsertRowid), printDrawingResponse };
+  return { id: Number(result.lastInsertRowid), videoUrl };
 });
