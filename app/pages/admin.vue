@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
+import { Home } from "@lucide/vue";
 import type { DrawingEntry, Photo } from "~/types";
 import CameraCapture from "~/components/CameraCapture.vue";
 
@@ -146,6 +147,10 @@ onMounted(() => {
       />
     </div>
   </div>
+
+  <NuxtLink to="/" class="home-btn" aria-label="Terug naar home">
+    <Home :size="16" />
+  </NuxtLink>
 </template>
 
 <style scoped>
@@ -362,5 +367,23 @@ button.camera-btn:hover {
   background: #e08b8b;
   border-color: #e08b8b;
   color: #222250;
+}
+
+.home-btn {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.15);
+  transition: color 0.2s;
+}
+
+.home-btn:hover {
+  color: rgba(255, 255, 255, 0.5);
 }
 </style>

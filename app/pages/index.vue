@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import "photoswipe/style.css";
+import { Settings } from "@lucide/vue";
 import type { Photo } from "~/types";
 
 // The API returns the original filename, a small grid thumbnail, and the
@@ -80,6 +81,10 @@ onUnmounted(() => {
       </a>
     </div>
   </div>
+
+  <NuxtLink to="/admin" class="admin-btn" aria-label="Admin">
+    <Settings :size="16" />
+  </NuxtLink>
 </template>
 
 <style scoped>
@@ -162,9 +167,21 @@ p {
   }
 }
 
-.admin-link {
-  margin-top: 40px;
-  opacity: 0.5;
-  font-size: 0.85em;
+.admin-btn {
+  position: fixed;
+  left: 12px;
+  bottom: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: rgba(255, 255, 255, 0.15);
+  transition: color 0.2s;
+}
+
+.admin-btn:hover {
+  color: rgba(255, 255, 255, 0.5);
 }
 </style>
