@@ -1,8 +1,7 @@
 <script setup lang="ts">
 import PhotoSwipeLightbox from "photoswipe/lightbox";
 import "photoswipe/style.css";
-
-type Photo = { name: string; thumb: string; w?: number; h?: number };
+import type { Photo } from "~/types";
 
 // The API returns the original filename, a small grid thumbnail, and the
 // original's (orientation-corrected) dimensions for PhotoSwipe — so the client

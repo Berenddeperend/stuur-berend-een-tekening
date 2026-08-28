@@ -1,40 +1,49 @@
 <script setup lang="ts">
 import { RefreshCcw } from "@lucide/vue";
+
+type Inspiration = { adj: string; subject: string; doing: string };
+
 function pickRandomFromArray(arr: string[]) {
   return arr[Math.floor(Math.random() * arr.length)];
 }
 
-const adj = ref();
-const subject = ref();
-const doing = ref();
-
-const randomize = () => {
-  adj.value = pickRandomFromArray(
-    "grote kleine schattige sterke dronken sexy onhandige gladde muzikale hongerige".split(" "),
-  );
-  subject.value = pickRandomFromArray(
-    "kip hamster hond kat pony schildpad walvis acrobaat clown detective dokter bouwvakker muzikant cowboy politicus dino".split(
-      " ",
+function pickInspiration(): Inspiration {
+  return {
+    adj: pickRandomFromArray(
+      "grote kleine schattige sterke dronken sexy onhandige gladde muzikale hongerige".split(" "),
     ),
-  );
-  doing.value = pickRandomFromArray([
-    "op stelten",
-    "in de kroeg",
-    "aan het fietsen",
-    "op vakantie",
-    "in de bergen",
-    "aan het tekenen",
-    "aan het skinny dippen",
-    "in een trein",
-    "op een skateboard",
-    "in bad",
-    "aan het zingen",
-    "aan het zeilen",
-    "aan het eten",
-  ]);
-};
+    subject: pickRandomFromArray(
+      "kip hamster hond kat pony schildpad walvis acrobaat clown detective dokter bouwvakker muzikant cowboy politicus dino".split(
+        " ",
+      ),
+    ),
+    doing: pickRandomFromArray([
+      "op stelten",
+      "in de kroeg",
+      "aan het fietsen",
+      "op vakantie",
+      "in de bergen",
+      "aan het tekenen",
+      "aan het skinny dippen",
+      "in een trein",
+      "op een skateboard",
+      "in bad",
+      "aan het zingen",
+      "aan het zeilen",
+      "aan het eten",
+    ]),
+  };
+}
 
-randomize();
+// useState (not a plain ref) so the random pick happens once on the server
+// and is reused as-is on the client via the payload — a plain ref here would
+// re-run pickInspiration() again during client hydration, picking a
+// different combo than what was server-rendered and flashing to it.
+const inspiration = useState<Inspiration>("inspiration", pickInspiration);
+
+function randomize() {
+  inspiration.value = pickInspiration();
+}
 </script>
 
 <template>
@@ -44,9 +53,9 @@ randomize();
     </button>
     <p class="prompt">
       Inspiratie nodig? Teken een <br />
-      <span class="word">{{ adj }}</span>
-      <span class="word">{{ subject }}</span>
-      <span class="word">{{ doing }}</span>
+      <span class="word">{{ inspiration.adj }}</span>
+      <span class="word">{{ inspiration.subject }}</span>
+      <span class="word">{{ inspiration.doing }}</span>
     </p>
   </div>
 </template>

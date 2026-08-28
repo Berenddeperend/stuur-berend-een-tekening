@@ -5,3 +5,10 @@ export type DrawingEntry = {
   drawing: string;
   printed: boolean;
 };
+
+export type Photo = {
+  name: string;
+  thumb: string;
+  w?: number;
+  h?: number;
+};

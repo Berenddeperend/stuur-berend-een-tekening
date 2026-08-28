@@ -23,6 +23,7 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     printerPassword: process.env.PRINTER_PASSWORD,
+    adminPassword: "",
   },
 
   nitro: {

@@ -1,4 +1,8 @@
+import { requireAdmin } from "../../utils/auth";
+
 export default defineEventHandler(async (event) => {
+  requireAdmin(event);
+
   const idParam = getRouterParam(event, "id");
   const id = Number(idParam);
   if (!idParam || !Number.isInteger(id)) {

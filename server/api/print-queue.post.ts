@@ -1,4 +1,8 @@
+import { requireAdmin } from "../utils/auth";
+
 export default defineEventHandler(async (event) => {
+  requireAdmin(event);
+
   const body = await readBody<{ drawing?: string; artist?: string; date: number }>(event);
 
   const config = useRuntimeConfig(event);
