@@ -46,11 +46,22 @@ onUnmounted(() => {
   lightbox?.destroy();
   lightbox = null;
 });
+
+const { t } = useI18n();
+
+// Getters, not plain strings: useSeoMeta resolves them reactively, so a
+// client-side switch to /en updates the document title too.
+useSeoMeta({
+  title: () => t("seo.title"),
+  description: () => t("seo.description"),
+});
 </script>
 
 <template>
   <div class="container">
-    <h1 class="text-center">Stuur Berend een tekening.</h1>
+    <LocaleSwitcher />
+
+    <h1 class="text-center">{{ t("index.title") }}</h1>
 
     <InspirationGenerator />
 
@@ -65,7 +76,7 @@ onUnmounted(() => {
 
     <hr />
 
-    <h2>Hall of fame</h2>
+    <h2>{{ t("index.hallOfFame") }}</h2>
 
     <div id="hall-of-fame" class="gallery">
       <a

@@ -15,12 +15,33 @@ export default defineNuxtConfig({
       ],
     },
   },
-  modules: [
-    "@nuxt/image",
-    //"@nuxtjs/i18n",
-    "@nuxtjs/tailwindcss",
-    "@vueuse/nuxt",
-  ],
+  modules: ["@nuxt/image", "@nuxtjs/i18n", "@nuxtjs/tailwindcss", "@vueuse/nuxt"],
+
+  i18n: {
+    strategy: "prefix_except_default",
+    defaultLocale: "nl",
+    locales: [
+      { code: "nl", language: "nl-NL", name: "Nederlands", file: "nl.json" },
+      { code: "en", language: "en-GB", name: "English", file: "en.json" },
+    ],
+    // The module's default here is an *enabled* auto-redirect based on the
+    // browser's language — Dutch is the canonical site, English is opt-in
+    // via the switcher only, so this has to be explicit.
+    detectBrowserLanguage: false,
+    // Exclude /admin from English via config rather than the defineI18nRoute(false)
+    // macro: the macro leaves the route's internal name unsuffixed ("admin"
+    // instead of "admin___nl"), which the module's global navigation guard
+    // doesn't recognize as "already localized" — it then tries to rewrite every
+    // click into /admin to a nonexistent "admin___nl" route and silently fails
+    // to navigate at all. Disabling just the "en" variant here keeps /admin
+    // registered normally (as admin___nl) so that guard leaves it alone, while
+    // still generating no /en/admin route.
+    customRoutes: "config",
+    pages: {
+      admin: { en: false },
+    },
+  },
+
   runtimeConfig: {
     printerPassword: process.env.PRINTER_PASSWORD,
     adminPassword: "",

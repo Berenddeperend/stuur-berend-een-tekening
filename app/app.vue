@@ -3,7 +3,13 @@
     <NuxtPage />
   </div>
 </template>
-<script setup lang="ts"></script>
+<script setup lang="ts">
+// The i18n module only writes htmlAttrs.lang itself under
+// `experimental.strictSeo`, which also pulls in hreflang/canonical/og tags and
+// requires a configured `baseUrl` — more than this site needs.
+const { locale } = useI18n();
+useHead({ htmlAttrs: { lang: locale } });
+</script>
 
 <style>
 html {

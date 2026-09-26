@@ -1,0 +1,45 @@
+{
+  "seo": {
+    "title": "Stuur Berend een tekening",
+    "description": "Teken iets op je telefoon en het rolt direct uit de bonnetjesprinter in mijn woonkamer."
+  },
+  "index": {
+    "title": "Stuur Berend een tekening.",
+    "hallOfFame": "Hall of fame"
+  },
+  "inspiration": {
+    "lead": "Inspiratie nodig? Teken een",
+    "refresh": "Nieuwe inspiratie"
+  },
+  "canvas": {
+    "confirmClear": "Weet je zeker dat je je tekening wilt wissen?",
+    "cancel": "Annuleren",
+    "clear": "Wissen"
+  },
+  "form": {
+    "namePlaceholder": "Je naam",
+    "send": "Verstuur",
+    "sending": "Versturen...",
+    "sent": "Verstuurd!",
+    "printing": "Aan het printen..."
+  },
+  "how": {
+    "heading": "Hoe werkt het?",
+    "step1": {
+      "title": "1. Maak een tekening",
+      "description": "Teken hierboven iets moois."
+    },
+    "step2": {
+      "title": "2. Klik op 'versturen'",
+      "description": "Je tekening rolt automatisch uit de bonnetjesprinter in mijn woonkamer."
+    },
+    "step3": {
+      "title": "3. Hall of fame",
+      "description": "Is het een leuke tekening? Dan maak ik er een foto van en komt hij in de Hall of Fame. 👇"
+    },
+    "closing": "Veel plezier, en probeer de hoeveelheid piemels enigszins te beperken."
+  },
+  "localeSwitcher": {
+    "label": "Taal"
+  }
+}

@@ -103,23 +103,6 @@ onMounted(() => {
       <button type="button" class="logout" @click="logout">Uitloggen</button>
 
       <section>
-        <h2>Tekeningen</h2>
-        <div class="queue-list">
-          <div v-for="row in data" :key="row.id" class="queue-row">
-            <img class="thumb" :src="`data:image/png;base64,${row.drawing}`" alt="" />
-            <div class="meta">
-              <strong>{{ row.artist || "anoniem" }}</strong>
-              <span>{{ row.date }}</span>
-            </div>
-            <div class="actions">
-              <button type="button" @click="printDrawing(row)">Print</button>
-              <button type="button" class="danger" @click="deleteDrawing(row)">Verwijder</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section>
         <div class="section-header">
           <h2>Hall of Fame</h2>
           <button type="button" class="camera-btn" @click="cameraRef?.open()">Foto maken</button>
@@ -138,6 +121,24 @@ onMounted(() => {
           </div>
         </div>
       </section>
+
+      <section>
+        <h2>Tekeningen</h2>
+        <div class="queue-list">
+          <div v-for="row in data" :key="row.id" class="queue-row">
+            <img class="thumb" :src="`data:image/png;base64,${row.drawing}`" alt="" />
+            <div class="meta">
+              <strong>{{ row.artist || "anoniem" }}</strong>
+              <span>{{ row.date }}</span>
+            </div>
+            <div class="actions">
+              <button type="button" @click="printDrawing(row)">Print</button>
+              <button type="button" class="danger" @click="deleteDrawing(row)">Verwijder</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
 
       <CameraCapture
         ref="cameraRef"

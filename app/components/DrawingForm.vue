@@ -88,14 +88,14 @@ async function pollForVideo(url: string) {
     <input
       v-model="nickname"
       type="text"
-      placeholder="Je naam"
+      :placeholder="$t('form.namePlaceholder')"
       class="nickname"
       autocomplete="off"
       maxlength="30"
     />
 
     <button :disabled="submitting" class="submit">
-      {{ submitting ? "Versturen..." : "Verstuur" }}
+      {{ submitting ? $t("form.sending") : $t("form.send") }}
     </button>
   </form>
 
@@ -106,12 +106,12 @@ async function pollForVideo(url: string) {
     @cancel="onDialogCancel"
     @click="onBackdropClick"
   >
-<!--    <button type="button" class="close-modal" aria-label="Sluiten" @click="closeModal">×</button>-->
+    <!--    <button type="button" class="close-modal" aria-label="Sluiten" @click="closeModal">×</button>-->
 
     <video v-if="videoUrl" :src="videoUrl" class="preview-video" controls autoplay muted loop />
     <div v-else class="loader-wrap">
       <span class="loader" />
-      <p>{{ videoUnavailable ? "Verstuurd!" : "Aan het printen..." }}</p>
+      <p>{{ videoUnavailable ? $t("form.sent") : $t("form.printing") }}</p>
     </div>
   </dialog>
 </template>

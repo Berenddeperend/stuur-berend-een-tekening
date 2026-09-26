@@ -1,61 +1,52 @@
 <script setup lang="ts">
 import { RefreshCcw } from "@lucide/vue";
+import { inspirationVocab } from "~/utils/inspiration";
 
-type Inspiration = { adj: string; subject: string; doing: string };
+type InspirationPick = { adj: number; subject: number; doing: number };
 
-function pickRandomFromArray(arr: string[]) {
-  return arr[Math.floor(Math.random() * arr.length)];
+function roll(): InspirationPick {
+  return { adj: Math.random(), subject: Math.random(), doing: Math.random() };
 }
 
-function pickInspiration(): Inspiration {
-  return {
-    adj: pickRandomFromArray(
-      "grote kleine schattige sterke dronken sexy onhandige gladde muzikale hongerige".split(" "),
-    ),
-    subject: pickRandomFromArray(
-      "kip hamster hond kat pony schildpad walvis acrobaat clown detective dokter bouwvakker muzikant cowboy politicus dino".split(
-        " ",
-      ),
-    ),
-    doing: pickRandomFromArray([
-      "op stelten",
-      "in de kroeg",
-      "aan het fietsen",
-      "op vakantie",
-      "in de bergen",
-      "aan het tekenen",
-      "aan het skinny dippen",
-      "in een trein",
-      "op een skateboard",
-      "in bad",
-      "aan het zingen",
-      "aan het zeilen",
-      "aan het eten",
-    ]),
-  };
+const { t, locale } = useI18n();
+
+// useState (not a plain ref) so the random pick happens once on the server and
+// is reused as-is on the client via the payload — a plain ref here would
+// re-roll during client hydration and flash to a different combo than what was
+// server-rendered.
+//
+// What's stored is three positions in [0, 1), not the resolved words: `/` ->
+// `/en` is a client-side route change, so this state survives it. Resolving
+// the positions against the *current* locale's lists on every render means
+// the page can't be left showing stale Dutch words, with no watcher involved.
+const pick = useState<InspirationPick>("inspiration", roll);
+
+function at(list: string[], seed: number) {
+  return list[Math.floor(seed * list.length)] ?? "";
 }
 
-// useState (not a plain ref) so the random pick happens once on the server
-// and is reused as-is on the client via the payload — a plain ref here would
-// re-run pickInspiration() again during client hydration, picking a
-// different combo than what was server-rendered and flashing to it.
-const inspiration = useState<Inspiration>("inspiration", pickInspiration);
+const vocab = computed(() => inspirationVocab[locale.value] ?? inspirationVocab.nl!);
+const adj = computed(() => at(vocab.value.adjectives, pick.value.adj));
+const subject = computed(() => at(vocab.value.subjects, pick.value.subject));
+const doing = computed(() => at(vocab.value.activities, pick.value.doing));
+// Empty for Dutch, which carries its article in the lead sentence.
+const article = computed(() => vocab.value.article?.(adj.value) ?? "");
 
 function randomize() {
-  inspiration.value = pickInspiration();
+  pick.value = roll();
 }
 </script>
 
 <template>
   <div class="inspiration">
-    <button class="refresh" type="button" aria-label="Nieuwe inspiratie" @click="randomize">
+    <button class="refresh" type="button" :aria-label="t('inspiration.refresh')" @click="randomize">
       <RefreshCcw :size="18" />
     </button>
     <p class="prompt">
-      Inspiratie nodig? Teken een <br />
-      <span class="word">{{ inspiration.adj }}</span>
-      <span class="word">{{ inspiration.subject }}</span>
-      <span class="word">{{ inspiration.doing }}</span>
+      {{ t("inspiration.lead") }} {{ article }} <br />
+      <span class="word">{{ adj }}</span>
+      <span class="word">{{ subject }}</span>
+      <span class="word">{{ doing }}</span>
     </p>
   </div>
 </template>

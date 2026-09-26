@@ -1,0 +1,45 @@
+{
+  "seo": {
+    "title": "Send Berend a drawing",
+    "description": "Draw something on your phone and it rolls straight out of the receipt printer in my living room."
+  },
+  "index": {
+    "title": "Send Berend a drawing.",
+    "hallOfFame": "Hall of fame"
+  },
+  "inspiration": {
+    "lead": "Need inspiration? Draw",
+    "refresh": "New inspiration"
+  },
+  "canvas": {
+    "confirmClear": "Are you sure you want to erase your drawing?",
+    "cancel": "Cancel",
+    "clear": "Erase"
+  },
+  "form": {
+    "namePlaceholder": "Your name",
+    "send": "Send",
+    "sending": "Sending...",
+    "sent": "Sent!",
+    "printing": "Printing..."
+  },
+  "how": {
+    "heading": "How does this work?",
+    "step1": {
+      "title": "1. Make a drawing",
+      "description": "Draw something up there."
+    },
+    "step2": {
+      "title": "2. Hit 'send'",
+      "description": "Your drawing rolls straight out of the receipt printer in my living room."
+    },
+    "step3": {
+      "title": "3. Hall of fame",
+      "description": "Is it a good one? Then I'll take a photo of it and it'll end up in the Hall of Fame. 👇"
+    },
+    "closing": "Have fun, and try to keep the number of phalluses to a minimum."
+  },
+  "localeSwitcher": {
+    "label": "Language"
+  }
+}

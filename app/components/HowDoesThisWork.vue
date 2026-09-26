@@ -1,42 +1,32 @@
 <script setup lang="ts">
+// Only the media paths live here — they're locale-independent. Titles and
+// descriptions are resolved from `how.<key>.*` so a locale switch is reactive
+// with no watcher and no duplicated asset paths.
 const steps = [
-  {
-    title: "1. Maak een tekening",
-    description: "Teken hierboven iets moois.",
-    media: "/steps/drawing-2.gif",
-  },
-  {
-    title: "2. Klik op 'versturen'",
-    description: "Je tekening rolt automatisch uit de bonnetjesprinter in mijn woonkamer.",
-    media: "/steps/print.gif",
-  },
-  {
-    title: "3. Hall of fame",
-    description:
-      "Is het een leuke tekening? Dan maak ik er een foto van en komt hij in de Hall of Fame. 👇",
-    media: "/steps/hall-of-fame.jpg",
-  },
-];
+  { key: "step1", media: "/steps/drawing-2.gif" },
+  { key: "step2", media: "/steps/print.gif" },
+  { key: "step3", media: "/steps/hall-of-fame.jpg" },
+] as const;
 </script>
 
 <template>
   <section>
-    <h2>Hoe werkt het?</h2>
+    <h2>{{ $t("how.heading") }}</h2>
 
     <ol class="steps">
-      <li v-for="step in steps" :key="step.title">
+      <li v-for="step in steps" :key="step.key">
         <div class="media">
-          <img :src="step.media" :alt="step.title" />
+          <img :src="step.media" :alt="$t(`how.${step.key}.title`)" />
         </div>
         <div>
-          <strong>{{ step.title }}</strong>
-          <p>{{ step.description }}</p>
+          <strong>{{ $t(`how.${step.key}.title`) }}</strong>
+          <p>{{ $t(`how.${step.key}.description`) }}</p>
         </div>
       </li>
     </ol>
 
     <p class="mt-8">
-      Veel plezier, en probeer de hoeveelheid piemels enigszins te beperken.
+      {{ $t("how.closing") }}
       <!--      Meer weten? Ik heb er-->
       <!--      <a href="www.berendswennenhuis.nl">hier</a> over geschreven.-->
     </p>

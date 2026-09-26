@@ -197,10 +197,14 @@ onMounted(async () => {
     @cancel="onConfirmCancel"
     @click="onConfirmBackdropClick"
   >
-    <p class="confirm-message">Weet je zeker dat je je tekening wilt wissen?</p>
+    <p class="confirm-message">{{ $t("canvas.confirmClear") }}</p>
     <div class="confirm-actions">
-      <button type="button" class="confirm-cancel" @click="closeConfirm">Annuleren</button>
-      <button type="button" class="confirm-ok" @click="confirmClear">Wissen</button>
+      <button type="button" class="confirm-cancel" @click="closeConfirm">
+        {{ $t("canvas.cancel") }}
+      </button>
+      <button type="button" class="confirm-ok" @click="confirmClear">
+        {{ $t("canvas.clear") }}
+      </button>
     </div>
   </dialog>
 </template>
