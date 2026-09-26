@@ -27,7 +27,7 @@ const options = computed(() => locales.value as LocaleObject[]);
 <style scoped>
 .locale-switcher {
   position: absolute;
-  top: 0;
+  top: 10px;
   right: 0;
   display: inline-flex;
   overflow: hidden;
