@@ -214,19 +214,19 @@ onMounted(async () => {
 
     <div class="controls">
       <KonvaControlItem @click="drawMode = 'brush'" :active="drawMode === 'brush'">
-        <Pencil :size="18" />
+        <Pencil :size="15" />
       </KonvaControlItem>
 
       <KonvaControlItem @click="drawMode = 'eraser'" :active="drawMode === 'eraser'">
-        <Eraser :size="18" />
+        <Eraser :size="15" />
       </KonvaControlItem>
 
       <KonvaControlItem :disabled="!canUndo" :aria-label="$t('canvas.undo')" @click="undo">
-        <Undo2 :size="18" />
+        <Undo2 :size="15" />
       </KonvaControlItem>
 
       <KonvaControlItem @click="openConfirm">
-        <Trash :size="18" />
+        <Trash :size="15" />
       </KonvaControlItem>
     </div>
   </div>
@@ -268,12 +268,12 @@ onMounted(async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .controls {
   display: flex;
-  gap: 6px;
+  gap: 4px;
 }
 
 .brush-dot {

@@ -12,8 +12,8 @@ defineProps({
 
 <style scoped>
 .control-item {
-  width: 40px;
-  height: 40px;
+  width: 34px;
+  height: 34px;
   display: flex;
   align-items: center;
   justify-content: center;
