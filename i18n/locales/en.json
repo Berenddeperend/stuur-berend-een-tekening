@@ -14,7 +14,8 @@
   "canvas": {
     "confirmClear": "Are you sure you want to erase your drawing?",
     "cancel": "Cancel",
-    "clear": "Erase"
+    "clear": "Erase",
+    "undo": "Undo"
   },
   "form": {
     "namePlaceholder": "Your name",

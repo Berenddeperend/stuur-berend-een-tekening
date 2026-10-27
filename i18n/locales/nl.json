@@ -14,7 +14,8 @@
   "canvas": {
     "confirmClear": "Weet je zeker dat je je tekening wilt wissen?",
     "cancel": "Annuleren",
-    "clear": "Wissen"
+    "clear": "Wissen",
+    "undo": "Ongedaan maken"
   },
   "form": {
     "namePlaceholder": "Je naam",

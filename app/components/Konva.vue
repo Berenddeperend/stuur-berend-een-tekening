@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { onMounted } from "vue";
-import { Pencil, Eraser, Trash } from "@lucide/vue";
+import { Pencil, Eraser, Undo2, Trash } from "@lucide/vue";
 import KonvaControlItem from "~/components/KonvaControlItem.vue";
 import config from "~/config";
 
@@ -22,8 +22,31 @@ let drawingCanvas: HTMLCanvasElement | null = null;
 let drawingContext: CanvasRenderingContext2D | null = null;
 let drawingLayer: { batchDraw: () => void } | null = null;
 
+// Drawing happens on a raw canvas, not Konva shapes, so there's no operation
+// list to walk back — undo instead snapshots the whole canvas before each
+// stroke (and before a clear) and restores the last one on demand. Capped so
+// the stack can't grow unbounded over a long drawing session.
+const MAX_UNDO_STEPS = 20;
+const undoStack: ImageData[] = [];
+const canUndo = ref(false);
+
+function pushUndoSnapshot() {
+  if (!drawingCanvas || !drawingContext) return;
+  undoStack.push(drawingContext.getImageData(0, 0, drawingCanvas.width, drawingCanvas.height));
+  if (undoStack.length > MAX_UNDO_STEPS) undoStack.shift();
+  canUndo.value = true;
+}
+
+function undo() {
+  if (!drawingContext || !drawingLayer || undoStack.length === 0) return;
+  drawingContext.putImageData(undoStack.pop()!, 0, 0);
+  drawingLayer.batchDraw();
+  canUndo.value = undoStack.length > 0;
+}
+
 const clear = () => {
   if (!drawingCanvas || !drawingContext || !drawingLayer) return;
+  pushUndoSnapshot();
   drawingContext.save();
   drawingContext.globalCompositeOperation = "source-over";
   drawingContext.clearRect(0, 0, drawingCanvas.width, drawingCanvas.height);
@@ -89,6 +112,7 @@ onMounted(async () => {
   const context = canvas.getContext("2d");
   drawingContext = context;
   context.strokeStyle = brushColor;
+  context.fillStyle = brushColor;
   context.lineJoin = "round";
   context.lineWidth = brushSize.value;
 
@@ -115,11 +139,24 @@ onMounted(async () => {
   let lastMid = null;
 
   stage.value.on("mousedown touchstart", function () {
+    pushUndoSnapshot();
+
     isPaint = true;
     const pos = stage.value.getPointerPosition();
     const local = { x: pos.x - image.x(), y: pos.y - image.y() };
     lastPoint = local;
     lastMid = local;
+
+    // Stamp a dot immediately at the starting point — a tap with no
+    // movement never fires mousemove below, so without this nothing gets
+    // painted at all. Dragging afterwards just draws a stroke on top of it,
+    // starting from the same point, so it looks identical to today.
+    context.globalCompositeOperation =
+      drawMode.value === "eraser" ? "destination-out" : "source-over";
+    context.beginPath();
+    context.arc(local.x, local.y, context.lineWidth / 2, 0, Math.PI * 2);
+    context.fill();
+    layer.batchDraw();
   });
 
   stage.value.on("mousemove touchmove", function () {
@@ -182,6 +219,10 @@ onMounted(async () => {
 
       <KonvaControlItem @click="drawMode = 'eraser'" :active="drawMode === 'eraser'">
         <Eraser :size="18" />
+      </KonvaControlItem>
+
+      <KonvaControlItem :disabled="!canUndo" :aria-label="$t('canvas.undo')" @click="undo">
+        <Undo2 :size="18" />
       </KonvaControlItem>
 
       <KonvaControlItem @click="openConfirm">

@@ -29,7 +29,7 @@ defineProps({
     background 0.15s;
 }
 
-.control-item:hover {
+.control-item:hover:not(:disabled) {
   border-color: rgba(255, 255, 255, 0.6);
   color: #e8e6e3;
 }
@@ -37,5 +37,10 @@ defineProps({
 .control-item.active {
   border-color: #e2bc4e;
   color: #e2bc4e;
+}
+
+.control-item:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
 }
 </style>
