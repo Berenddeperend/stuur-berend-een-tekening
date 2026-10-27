@@ -18,6 +18,25 @@ const drawMode = ref<"brush" | "eraser">("brush");
 const canvasWidth = config.canvasSize.width / 2;
 const canvasHeight = config.canvasSize.height / 2;
 
+// A custom cursor matching the selected brush's diameter — same CSS-pixel
+// convention as the toolbar's .brush-dot swatches. Built as an SVG data URI:
+// a black ring with a white halo so it stays visible over both the white
+// canvas and dark strokes already drawn. Only applied on devices with a real
+// pointer (see the `pointer: fine` media query below) — on touch there's no
+// cursor to replace.
+const brushCursor = computed(() => {
+  const r = brushSize.value / 2;
+  const pad = 2; // room for the stroke so it isn't clipped at the SVG edge
+  const size = Math.ceil((r + pad) * 2);
+  const c = size / 2;
+  const svg =
+    `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}">` +
+    `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="white" stroke-width="2.5"/>` +
+    `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="black" stroke-width="1"/>` +
+    `</svg>`;
+  return `url("data:image/svg+xml,${encodeURIComponent(svg)}") ${c} ${c}, auto`;
+});
+
 let drawingCanvas: HTMLCanvasElement | null = null;
 let drawingContext: CanvasRenderingContext2D | null = null;
 let drawingLayer: { batchDraw: () => void } | null = null;
@@ -190,7 +209,11 @@ onMounted(async () => {
     <div
       ref="canvas"
       class="canvas-surface"
-      :style="{ width: `${canvasWidth}px`, height: `${canvasHeight}px` }"
+      :style="{
+        width: `${canvasWidth}px`,
+        height: `${canvasHeight}px`,
+        '--brush-cursor': brushCursor,
+      }"
     ></div>
   </div>
 
@@ -262,6 +285,12 @@ onMounted(async () => {
   //border: 1px solid rgba(255, 255, 255, 0.3);
   //border-radius: 4px;
   touch-action: none;
+}
+
+@media (pointer: fine) {
+  .canvas-surface {
+    cursor: var(--brush-cursor);
+  }
 }
 
 .toolbar {
